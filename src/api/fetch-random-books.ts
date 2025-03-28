@@ -5,7 +5,7 @@ export default async function fetchRandomBooks(): Promise<BookData[]> {
   const url = endpoints.randomBooks;
 
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { next: { revalidate: 3 } });
     if (!res.ok) {
       throw new Error();
     }
