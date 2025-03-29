@@ -4,6 +4,7 @@ import books from "@/mock/books.json";
 import fetchBooks from "@/api/fetch-books";
 import fetchRandomBooks from "@/api/fetch-random-books";
 
+// 클라언트 컴포넌트와 서버 컴포넌트로 구분하기 위해 분리
 async function AllBooks() {
   const allBooks = await fetchBooks();
 
@@ -16,6 +17,7 @@ async function AllBooks() {
   );
 }
 
+// 클라언트 컴포넌트와 서버 컴포넌트로 구분하기 위해 분리
 async function RecommendBooks() {
   const recommendBooks = await fetchRandomBooks();
 
@@ -28,6 +30,7 @@ async function RecommendBooks() {
   );
 }
 
+// 서버 컨포넌트로 싱행
 export default function Home() {
   return (
     <div className={style.container}>
