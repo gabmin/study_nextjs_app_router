@@ -5,6 +5,7 @@ import fetchBooks from "@/api/fetch-books";
 import fetchRandomBooks from "@/api/fetch-random-books";
 import delay from "@/utils/delay";
 import { Suspense } from "react";
+import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 
 // 클라언트 컴포넌트와 서버 컴포넌트로 구분하기 위해 분리
 async function AllBooks() {
@@ -34,7 +35,7 @@ async function RecommendBooks() {
   );
 }
 
-export const dynamic = true;
+export const dynamic = "force-dynamic";
 
 // 서버 컨포넌트로 실행
 export default function Home() {
@@ -42,13 +43,25 @@ export default function Home() {
     <div className={style.container}>
       <section>
         <h3>지금 추천하는 도서</h3>
-        <Suspense fallback={<div>도서를 불러오는 중입니다...</div>}>
+        <Suspense
+          fallback={
+            <>
+              <BookListSkeleton count={3} />
+            </>
+          }
+        >
           <RecommendBooks />
         </Suspense>
       </section>
       <section>
         <h3>등록된 모든 도서</h3>
-        <Suspense fallback={<div>도서를 불러오는 중입니다...</div>}>
+        <Suspense
+          fallback={
+            <>
+              <BookListSkeleton count={10} />
+            </>
+          }
+        >
           <AllBooks />
         </Suspense>
       </section>
