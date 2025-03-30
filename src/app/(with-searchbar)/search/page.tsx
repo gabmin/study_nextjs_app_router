@@ -1,8 +1,10 @@
 import books from "@/mock/books.json";
 import BookItem from "@/components/book-item";
 import fetchSearchBooks from "@/api/fetch-search-books";
+import delay from "@/utils/delay";
 
 async function SearchBooks({ params }: { params: string }) {
+  await delay(5000);
   const searchBooks = await fetchSearchBooks(params);
 
   return (
