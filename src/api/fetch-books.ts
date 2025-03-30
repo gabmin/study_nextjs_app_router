@@ -4,16 +4,9 @@ import { BookData } from "../types";
 export default async function fetchBooks(): Promise<BookData[]> {
   const url = endpoints.allBooks;
 
-  try {
-    const res = await fetch(url, { cache: "force-cache" });
-    if (!res.ok) {
-      throw new Error();
-    }
-    const jsonData = await res.json();
+  const res = await fetch(url, { cache: "force-cache" });
 
-    return jsonData;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+  const jsonData = await res.json();
+
+  return jsonData;
 }
