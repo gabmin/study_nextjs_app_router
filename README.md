@@ -62,7 +62,7 @@ export const dynamic = 'error'
 
 <br/>
 
-## 스트리밍
+## 스트리밍 (Streaming)
 
 - 용량이 매우 큰 데이터를 잘게 쪼개서 마치 강물이 흐르듯이 끊기지 않고 데이터를 전송시켜주는 기술
 
@@ -115,7 +115,7 @@ export const dynamic = 'error'
 
 - page 스트리밍보다 컴포넌트 스트리밍(Suspense)가 범용적으로 사용된다.
 
-## 에러 핸들링
+## 에러 핸들링 (Error Handling)
 
 - 페이지 스트리밍 적용하는 방법처럼 동일한 폴더에 `error.tsx` 파일을 만들어주면 비동기 작업중 에러가 발생하게 되면 `error.tsx` 파일이 노출된다.
 - 에러페이지는 서버든 클리이언트든 모두에서 동작해야하기 떄문에 클라이언트 컴포넌트로 만들어야한다.
@@ -157,6 +157,36 @@ export const dynamic = 'error'
   ```
 
   <br>
+
+## 서버 액션 (Server Actions)
+
+브라우저에서 호출할 수 있는 서버에서 실행되는 비동기 함수
+
+- form tag에서 서버 액션을 사용하여 마치 api처럼 서버에 요청할 수 있다.
+- formData로 입렵 정보가 전달됨
+
+```typescript
+function ReviewEditor() {
+  async function createReviewAction() {
+    "use serve";
+
+    // 해당 로직을 서버로 요청함
+    const content = formData.get("content")?.toString();
+    const author = formData.get("author")?.toString();
+    console.log(content, author);
+  }
+
+  return (
+    <section>
+      <form action={createReviewAction}>
+        <input name="content" placeholder="리뷰 내용" />
+        <input name="author" placeholder="작성자" />
+        <button type="submit">작성하기</button>
+      </form>
+    </section>
+  );
+}
+```
 
 ---
 

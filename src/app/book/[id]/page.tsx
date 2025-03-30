@@ -23,15 +23,8 @@ export function generateStaticParams() {
   ];
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string | string[] }>;
-}) {
-  const { id: paramsId } = await params;
-  const targetBook = await fetctTargetBooks(
-    Array.isArray(paramsId) ? "" : paramsId,
-  );
+async function BookDetail({ bookId }: { bookId: string }) {
+  const targetBook = await fetctTargetBooks(bookId);
 
   if (!targetBook) {
     notFound();
@@ -41,7 +34,7 @@ export default async function Page({
     targetBook;
 
   return (
-    <div className={style.container}>
+    <section>
       <div
         className={style.cover_img_container}
         style={{ backgroundImage: `url('${coverImgUrl}')` }}
@@ -54,6 +47,37 @@ export default async function Page({
         {author} | {publisher}
       </div>
       <div className={style.description}>{description}</div>
+    </section>
+  );
+}
+
+function ReviewEditor() {
+  async function createReviewAction(formData: FormData) {
+    "use server";
+
+    const content = formData.get("content")?.toString();
+    const author = formData.get("author")?.toString();
+    console.log(content, author);
+  }
+
+  return (
+    <section>
+      <form action={createReviewAction}>
+        <input name="content" placeholder="리뷰 내용" />
+        <input name="author" placeholder="작성자" />
+        <button type="submit">작성하기</button>
+      </form>
+    </section>
+  );
+}
+
+export default async function Page({ params }: { params: { id: string } }) {
+  const { id } = await params;
+
+  return (
+    <div className={style.container}>
+      <BookDetail bookId={id} />
+      <ReviewEditor />
     </div>
   );
 }
