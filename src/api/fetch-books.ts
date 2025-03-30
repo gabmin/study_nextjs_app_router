@@ -5,7 +5,7 @@ export default async function fetchBooks(): Promise<BookData[]> {
   const url = endpoints.allBooks;
 
   try {
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url, { cache: "force-cache" });
     if (!res.ok) {
       throw new Error();
     }
