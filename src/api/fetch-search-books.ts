@@ -7,7 +7,7 @@ export default async function fetchSearchBooks(
   const url = endpoints.searchBooks;
 
   try {
-    const res = await fetch(`${url}/?q=${text}`);
+    const res = await fetch(`${url}/?q=${text}`, { cache: "force-cache" });
     if (!res.ok) {
       throw new Error();
     }

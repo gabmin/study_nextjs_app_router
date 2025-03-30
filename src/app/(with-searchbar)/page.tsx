@@ -30,7 +30,7 @@ async function RecommendBooks() {
   );
 }
 
-// 서버 컨포넌트로 싱행
+// 서버 컨포넌트로 실행
 export default function Home() {
   return (
     <div className={style.container}>

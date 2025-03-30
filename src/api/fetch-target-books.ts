@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { BookData } from "../types";
 import { endpoints } from "./endpoints";
 
@@ -9,7 +10,9 @@ export default async function fetctTargetBooks(
   try {
     const res = await fetch(url);
     if (!res.ok) {
-      throw new Error();
+      if (res.status === 404) {
+        notFound();
+      }
     }
     const jsonData = await res.json();
 
