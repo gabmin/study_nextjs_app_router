@@ -75,7 +75,44 @@ export const dynamic = 'error'
 > 3. 오직 페이지 컨포넌트 (page.tsx)에만 적용할 수 있다.
 > 4. 쿼리스트링이 변경되는 경우에는 작동되지 않는다.
 
-<br>
+- 페이지가 아닌 컴포넌트에 스트리밍을 적용하기 위해서는 `Suspense`를 활용한다.
+
+```typescript
+<Suspense fallback={<div>Loading...</div>}>
+  <SearchBooks params={query} />
+</Suspense>
+```
+
+- 컴포넌트 스트리밍도 쿼리스트링이 변경 될 경우에는 동작하지 않는데 key 값을 추가함으로써 동작하도록 할 수 있다.
+
+```typescript
+<Suspense key={params} fallback={<div>Loading...</div>}>
+  <SearchBooks params={query} />
+</Suspense>
+```
+
+- Suspense는 병렬로도 동작하여 한 컴포넌트 안에 모든 비동기 요소를 기다릴 필요없이 동작이 완료되는대로 개별로 렌더링이 가능하다.
+
+```typescript
+    <div className={style.container}>
+      <section>
+        <h3>지금 추천하는 도서</h3>  -> 3초 뒤 노출
+        <Suspense fallback={<div>도서를 불러오는 중입니다...</div>}>
+          <RecommendBooks />
+        </Suspense>
+      </section>
+      <section>
+        <h3>등록된 모든 도서</h3> -> 1.5초 뒤 노출
+        <Suspense fallback={<div>도서를 불러오는 중입니다...</div>}>
+          <AllBooks />
+        </Suspense>
+      </section>
+    </div>
+```
+
+- page 스트리밍보다 컴포넌트 스트리밍(Suspense)가 범용적올 사용된다.
+
+  <br>
 
 ---
 

@@ -3,9 +3,12 @@ import style from "./page.module.css";
 import books from "@/mock/books.json";
 import fetchBooks from "@/api/fetch-books";
 import fetchRandomBooks from "@/api/fetch-random-books";
+import delay from "@/utils/delay";
+import { Suspense } from "react";
 
 // 클라언트 컴포넌트와 서버 컴포넌트로 구분하기 위해 분리
 async function AllBooks() {
+  await delay(3000);
   const allBooks = await fetchBooks();
 
   return (
@@ -19,6 +22,7 @@ async function AllBooks() {
 
 // 클라언트 컴포넌트와 서버 컴포넌트로 구분하기 위해 분리
 async function RecommendBooks() {
+  await delay(1500);
   const recommendBooks = await fetchRandomBooks();
 
   return (
@@ -30,17 +34,23 @@ async function RecommendBooks() {
   );
 }
 
+export const dynamic = true;
+
 // 서버 컨포넌트로 실행
 export default function Home() {
   return (
     <div className={style.container}>
       <section>
         <h3>지금 추천하는 도서</h3>
-        <RecommendBooks />
+        <Suspense fallback={<div>도서를 불러오는 중입니다...</div>}>
+          <RecommendBooks />
+        </Suspense>
       </section>
       <section>
         <h3>등록된 모든 도서</h3>
-        <AllBooks />
+        <Suspense fallback={<div>도서를 불러오는 중입니다...</div>}>
+          <AllBooks />
+        </Suspense>
       </section>
     </div>
   );

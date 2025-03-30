@@ -2,6 +2,7 @@ import books from "@/mock/books.json";
 import BookItem from "@/components/book-item";
 import fetchSearchBooks from "@/api/fetch-search-books";
 import delay from "@/utils/delay";
+import { Suspense } from "react";
 
 async function SearchBooks({ params }: { params: string }) {
   await delay(5000);
@@ -27,8 +28,8 @@ export default async function Page({
   const query = params.q ?? "";
 
   return (
-    <div>
+    <Suspense fallback={<div>Loading...</div>}>
       <SearchBooks params={query} />
-    </div>
+    </Suspense>
   );
 }
