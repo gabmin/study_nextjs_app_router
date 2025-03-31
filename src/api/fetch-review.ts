@@ -9,7 +9,7 @@ export const fetchCreateReview = async ({
   content: string;
   author: string;
 }) => {
-  const response = await fetch(endpoints.createReview, {
+  const response = await fetch(endpoints.review, {
     method: "POST",
     body: JSON.stringify({
       bookId,
@@ -19,4 +19,16 @@ export const fetchCreateReview = async ({
   });
 
   return response;
+};
+
+export const fetchReadReview = async (bookId: string) => {
+  const response = await fetch(`${endpoints.review}/book/${bookId}`);
+
+  if (!response.ok) {
+    throw new Error(`Review fetch failed : ${response.statusText}`);
+  }
+
+  const reviewData = await response.json();
+
+  return reviewData;
 };

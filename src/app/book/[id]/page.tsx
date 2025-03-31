@@ -1,7 +1,10 @@
 import { notFound } from "next/navigation";
 import style from "./page.module.css";
 import { fetctTargetBooks } from "@/api/fetch-books";
-import { createReviewAction } from "@/app/actions/create-review-action";
+import { fetchReadReview } from "@/api/fetch-review";
+import { ReviewData } from "@/types";
+import ReviewItem from "@/components/review-item";
+import ReviewEditor from "@/components/review-editor";
 
 // generateStaticParams로 명시하지 않은 페이지는 404 페이지로 이동시킴
 // 데이터가 존재하더라도 id:4 페이지로 접근하면 404 페이지 노출
@@ -52,15 +55,14 @@ async function BookDetail({ bookId }: { bookId: string }) {
   );
 }
 
-function ReviewEditor({ bookId }: { bookId: string }) {
+async function ReviewList({ bookId }: { bookId: string }) {
+  const response: ReviewData[] = await fetchReadReview(bookId);
+
   return (
     <section>
-      <form action={createReviewAction}>
-        <input name="bookId" value={bookId} hidden readOnly />
-        <input required name="content" placeholder="리뷰 내용" />
-        <input required name="author" placeholder="작성자" />
-        <button type="submit">작성하기</button>
-      </form>
+      {response.map((review) => (
+        <ReviewItem key={`review-item-${review.id}`} {...review} />
+      ))}
     </section>
   );
 }
@@ -72,6 +74,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     <div className={style.container}>
       <BookDetail bookId={id} />
       <ReviewEditor bookId={id} />
+      <ReviewList bookId={id} />
     </div>
   );
 }

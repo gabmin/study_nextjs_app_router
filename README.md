@@ -1,5 +1,16 @@
 # Nextjs App Router
 
+## 기타 정보
+
+### 환경변수
+
+환경 변수 생성시 `NEXT_PUBLIC` 라는 접두가 붙어야 nextjs에서 인식을 할 수 있다.
+
+```
+NEXT_PUBLIC_API_SERVER_URL=http://localhost
+NEXT_PUBLIC_API_DEPLOY_SERVER_URL=https://.../
+```
+
 ## 라우트 세그먼트 옵션
 
 - 특정 페이지의 데이터 캐싱이나 리벨리데이트 동작을 강제할 수 있는 기능
