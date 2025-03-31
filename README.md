@@ -422,6 +422,42 @@ CSR 방식으로 Link 혹은 Router push를 통해서 접근하는 경우에는 
 
 <br/>
 
+## 최적화
+
+nextjs에는 이미지 최적화에 관련된 모든 기능들을 자체적으로 제공하고 있다.
+**외부에서 가져오는 이미지('https://xxx')는 보안상 문제로 에러가 발생하여 next.cofig.js 의 설정을 변경해줘야한다.**
+
+![최적화](./public/readme/스크린샷%202025-03-31%20오후%206.32.28.png)
+
+```typescript
+<Image
+  src={coverImgUrl}
+  width={80} // 이미지 사이즈 최적화를 위해 필요
+  height={105}
+  alt={`도서 ${title}의 표지 이미지`}
+/>
+```
+
+```javascript
+const nextConfig: NextConfig = {
+  /* config options here */
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "shopping-phinf.pstatic.net",
+        pathname: "**",
+      },
+    ],
+  },
+};
+```
+
 ---
 
 출처: 한 입 크기로 잘라먹는 Next.js - 이정환

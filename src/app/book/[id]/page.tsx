@@ -5,6 +5,7 @@ import { fetchReadReview } from "@/api/fetch-review";
 import { ReviewData } from "@/types";
 import ReviewItem from "@/components/review-item";
 import ReviewEditor from "@/components/review-editor";
+import Image from "next/image";
 
 // generateStaticParams로 명시하지 않은 페이지는 404 페이지로 이동시킴
 // 데이터가 존재하더라도 id:4 페이지로 접근하면 404 페이지 노출
@@ -43,7 +44,12 @@ async function BookDetail({ bookId }: { bookId: string }) {
         className={style.cover_img_container}
         style={{ backgroundImage: `url('${coverImgUrl}')` }}
       >
-        <img src={coverImgUrl} />
+        <Image
+          src={coverImgUrl}
+          width={240}
+          height={300}
+          alt={`도서 ${title}의 표지 이미지`}
+        />
       </div>
       <div className={style.title}>{title}</div>
       <div className={style.subTitle}>{subTitle}</div>
