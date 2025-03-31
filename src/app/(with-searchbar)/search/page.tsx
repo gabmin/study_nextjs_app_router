@@ -1,12 +1,11 @@
 import books from "@/mock/books.json";
 import BookItem from "@/components/book-item";
 import { fetchSearchBooks } from "@/api/fetch-books";
-import delay from "@/utils/delay";
+
 import { Suspense } from "react";
 import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 
 async function SearchBooks({ params }: { params: string }) {
-  await delay(5000);
   const searchBooks = await fetchSearchBooks(params);
 
   return (

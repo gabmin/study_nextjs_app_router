@@ -2,13 +2,11 @@ import BookItem from "@/components/book-item";
 import style from "./page.module.css";
 import books from "@/mock/books.json";
 import { fetchBooks, fetchRandomBooks } from "@/api/fetch-books";
-import delay from "@/utils/delay";
 import { Suspense } from "react";
 import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 
 // 클라언트 컴포넌트와 서버 컴포넌트로 구분하기 위해 분리
 async function AllBooks() {
-  await delay(3000);
   const allBooks = await fetchBooks();
 
   return (
@@ -22,7 +20,6 @@ async function AllBooks() {
 
 // 클라언트 컴포넌트와 서버 컴포넌트로 구분하기 위해 분리
 async function RecommendBooks() {
-  await delay(1500);
   const recommendBooks = await fetchRandomBooks();
 
   return (

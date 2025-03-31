@@ -48,6 +48,43 @@ export default function RevoewItemDeleteButton() {
 
 <br/>
 
+### 모달 뒷 배경 눌렀을때 뒤로가기 기능 구현
+
+```typescript
+export default function Modal({ children }: { children: ReactNode }) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!dialogRef.current?.open) {
+      dialogRef.current?.showModal();
+      dialogRef.current?.scrollTo({
+        top: 0,
+      });
+    }
+  }, []);
+
+  return createPortal(
+    <dialog
+      className={style.modal}
+      ref={dialogRef}
+      onClose={() => router.back()}
+      onClick={(e) => {
+        // nodeName에 대한 타입이 아직 지정되어 있지 않아서 any로 명시함
+        if ((e.target as any).nodeName === "DIALOG") {
+          router.back();
+        }
+      }}
+    >
+      {children}
+    </dialog>,
+    document.getElementById("modal-root") as HTMLElement,
+  );
+}
+```
+
+<br/>
+
 ### submit() vs requestSubmit()
 
 #### submit()
@@ -363,12 +400,27 @@ useEffect(() => {
 
 ## 고급 라우팅 패턴
 
-### 병렬 라우트 (parallel Route)
+### 병렬 라우트 (Parallel Route)
 
 `slot`이라고 불리는 @sidebar 같은 페이지를 생성하여 병렬적으로 라우팅해주는 기능
 
 ![병렬 라우트](./public/readme/스크린샷%202025-03-31%20오후%205.21.22.png)
 ![병렬 라우트2](./public/readme/스크린샷%202025-03-31%20오후%205.27.35.png)
+
+<br/>
+
+### 인터셉팅 라우트 (Intercepting Route)
+
+특정 조건에 따라 다른 페이지를 보여주는 기능
+CSR 방식으로 Link 혹은 Router push를 통해서 접근하는 경우에는 다른 페이지를 보여주는 방식
+예를들어, 인스타그램에서 게시글을 클릭하면 모달 형태의 화면으로 노출되지만, 새로고침하면 한 페이지 형태로 변경됨
+
+![인터셉팅 라우트](./public/readme/스크린샷%202025-03-31%20오후%205.43.48.png)
+
+`book[id]`페이지를 인터셉터 하기 위해서는 `(.)book[id]`라는 폴더를 생성해서 페이지를 만들어준다.
+`(.)`은 상대경로로 상황에 따라 `(..)` `(..)(..)` 와 같은식으로 사용할 수 있다.
+
+<br/>
 
 ---
 
