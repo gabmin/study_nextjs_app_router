@@ -245,6 +245,28 @@ function ReviewEditor() {
 ![revalidatePath2](./public/readme/스크린샷%202025-03-31%20오후%2012.59.31.png)
 
 ```typescript
+ ## 옵션
+ revalidatePath(originalPath: string, type?: 'layout' | 'page')
+
+ 1. 특정 주소에 해당하는 페이지만 재검증
+ revalidatePath(`/book/${bookId}`)
+
+ 2. 특정 경로의 모든 페이지를 재검증 (폴더의 경로)
+ revalidatePath("/book/[id]", 'page')
+
+ 3. 특정 레이아웃을 갖는 모든 페이지 재검증
+ revalidatePath('/(with-searchbar)', 'layout')
+
+ 4. 모든 페이지 재검증
+ revalidatePath('/', 'layout')
+
+ 5. 태그 기준 데이터 캐시 재검증 - 가장 효율적인 방법
+ const response = await fetch(url, { next: { tags: [`review-${bookId}`]}})
+
+ revalidateTag(`review-${bookId}`)
+```
+
+```typescript
 export const fetchCreateReview = async ({
   bookId,
   content,
