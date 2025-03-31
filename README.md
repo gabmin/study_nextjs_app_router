@@ -160,7 +160,17 @@ export const dynamic = 'error'
 
 ## 서버 액션 (Server Actions)
 
-브라우저에서 호출할 수 있는 서버에서 실행되는 비동기 함수
+서버에서 직접 실행되는 함수. API 라우트를 따로 만들지 않아도 백엔드 로직을 프론트 코드 안에 자연스럽게 작성할 수 있다.
+서버에서만 실행되도록 `use serve`를 명시해줘야한다.
+
+### 장점
+
+1. API 라우트 대체
+   `/api/xxx.ts` 처럼 API 라우트를 만들 필요없이 직접 DB에 접근할 수 있다.
+2. 보안 강화
+   서버 액션은 서버에서만 실행되기 때문에, DB 접근 로직이나 비밀 키가 노출될 일이 없다.
+3. 직접적인 form 처리 가능
+   form 태그에 서버 액션을 바로 연결할 수 있어서 전통적인 HTML 폼 방식과 비슷하게 동작하면서 백엔드 작업을 수행할 수 있다.
 
 - form tag에서 서버 액션을 사용하여 마치 api처럼 서버에 요청할 수 있다.
 - formData로 입렵 정보가 전달됨
@@ -171,16 +181,19 @@ function ReviewEditor() {
     "use serve";
 
     // 해당 로직을 서버로 요청함
+    const bookId = formData.get("bookId")?.toString();
     const content = formData.get("content")?.toString();
     const author = formData.get("author")?.toString();
-    console.log(content, author);
+
+    if (!bookId || !content || !author) return;
   }
 
   return (
     <section>
       <form action={createReviewAction}>
-        <input name="content" placeholder="리뷰 내용" />
-        <input name="author" placeholder="작성자" />
+        <input name="bookId" value={bookId} hidden readOnly />
+        <input required name="content" placeholder="리뷰 내용" />
+        <input required name="author" placeholder="작성자" />
         <button type="submit">작성하기</button>
       </form>
     </section>

@@ -8,4 +8,5 @@ export const endpoints = {
   allBooks: `${defaultUrl}/book`,
   randomBooks: `${defaultUrl}/book/random`,
   searchBooks: `${defaultUrl}/book/search`,
+  createReview: `${defaultUrl}/review`,
 };
