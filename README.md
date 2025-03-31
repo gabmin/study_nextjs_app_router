@@ -1,5 +1,17 @@
 # Nextjs App Router
 
+## 목차
+
+#### 1. [기타 정보](#기타-정보)
+
+#### 2. [라이트 세그먼트 옵션](#라우트-세그먼트-옵션)
+
+#### 3. [클라이언트 라우터 캐시](#클라이언트-라우터-캐시)
+
+#### 4. [스트리밍](#스트리밍-streaming)
+
+#### 5. [서버 액션](#서버-액션-server-actions)
+
 ## 기타 정보
 
 ### 환경변수
@@ -10,6 +22,8 @@
 NEXT_PUBLIC_API_SERVER_URL=http://localhost
 NEXT_PUBLIC_API_DEPLOY_SERVER_URL=https://.../
 ```
+
+<br/>
 
 ## 라우트 세그먼트 옵션
 
@@ -56,6 +70,8 @@ export const dynamic = 'force-dynamic'
 export const dynamic = 'force-static'
 export const dynamic = 'error'
 ```
+
+<br/>
 
 ## 클라이언트 라우터 캐시
 
@@ -125,6 +141,8 @@ export const dynamic = 'error'
   ```
 
 - page 스트리밍보다 컴포넌트 스트리밍(Suspense)가 범용적으로 사용된다.
+
+<br/>
 
 ## 에러 핸들링 (Error Handling)
 
@@ -211,6 +229,46 @@ function ReviewEditor() {
   );
 }
 ```
+
+### 서버액션 재검증
+
+`revalidatePath`를 이용하여 Next.js의 서버 액션에서 특정 경로의 캐시를 무효화(리로드)한다.
+
+만약 리뷰를 작성했다고 가정했을때 등록한 리뷰가 보여야하지만 보이지 않아 최신화해줘야한다.
+
+**오직 서버에서만 실행할 수 있는 함수이기 때문에 서버액션 내부나 서버 컨포넌트에서만 사용이 가능하다.**
+
+**데이터 페칭 옵션을 `force-cache`으로 설정했더라도 함수를 사용하게 되면 무효화 되버린다.**
+**또한 풀라우트캐쉬가 업데이트 되지 않는다.**
+
+![revalidatePath1](./public/readme/스크린샷%202025-03-31%20오후%2012.56.38.png)
+![revalidatePath2](./public/readme/스크린샷%202025-03-31%20오후%2012.59.31.png)
+
+```typescript
+export const fetchCreateReview = async ({
+  bookId,
+  content,
+  author,
+}: {
+  bookId: string;
+  content: string;
+  author: string;
+}) => {
+  const response = await fetch(endpoints.review, {
+    method: "POST",
+    body: JSON.stringify({
+      bookId,
+      content,
+      author,
+    }),
+  });
+
+  revalidatePath(`/book/${bookId}`);
+  return response;
+};
+```
+
+<br/>
 
 ---
 

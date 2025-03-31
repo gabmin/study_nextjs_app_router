@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { endpoints } from "./endpoints";
 
 export const fetchCreateReview = async ({
@@ -18,6 +19,7 @@ export const fetchCreateReview = async ({
     }),
   });
 
+  revalidatePath(`/book/${bookId}`);
   return response;
 };
 
