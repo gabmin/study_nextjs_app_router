@@ -292,6 +292,28 @@ export const fetchCreateReview = async ({
 
 <br/>
 
+### 클라이언트 컴포넌트에서의 서버 액션 (useActionState)
+
+form action 결과를 기반으로 상태를 업데이트 할 수 있도록 제공하는 React hook
+React 19 버전부터 `useFormState`에서 `useActionState`로 변경
+
+```typescript
+const [state, formAction, isPending] = useActionState(
+  (createReviewAction = 서버액션),
+  (null = 초기값),
+);
+
+// state : { status: boolean, error: string }
+
+useEffect(() => {
+  if(state && !state.status) {
+    alert(state.error);
+  }
+}, [state])
+
+<form action={formAction}>...</form>;
+```
+
 ---
 
 출처: 한 입 크기로 잘라먹는 Next.js - 이정환

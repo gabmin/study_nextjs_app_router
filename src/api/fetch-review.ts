@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { endpoints } from "./endpoints";
 
 export const fetchCreateReview = async ({
@@ -19,12 +19,16 @@ export const fetchCreateReview = async ({
     }),
   });
 
-  revalidatePath(`/book/${bookId}`);
+  revalidateTag(`review-${bookId}`);
   return response;
 };
 
 export const fetchReadReview = async (bookId: string) => {
-  const response = await fetch(`${endpoints.review}/book/${bookId}`);
+  const response = await fetch(`${endpoints.review}/book/${bookId}`, {
+    next: {
+      tags: [`review-${bookId}`],
+    },
+  });
 
   if (!response.ok) {
     throw new Error(`Review fetch failed : ${response.statusText}`);
