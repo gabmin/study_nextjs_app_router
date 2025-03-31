@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import style from "./page.module.css";
-import fetctTargetBooks from "@/api/fetch-target-books";
+import { fetctTargetBooks } from "@/api/fetch-books";
 import { createReviewAction } from "@/app/actions/create-review-action";
 
 // generateStaticParams로 명시하지 않은 페이지는 404 페이지로 이동시킴

@@ -1,6 +1,6 @@
 import books from "@/mock/books.json";
 import BookItem from "@/components/book-item";
-import fetchSearchBooks from "@/api/fetch-search-books";
+import { fetchSearchBooks } from "@/api/fetch-books";
 import delay from "@/utils/delay";
 import { Suspense } from "react";
 import BookListSkeleton from "@/components/skeleton/book-list-skeleton";

@@ -1,7 +1,7 @@
 import "./globals.css";
 import Link from "next/link";
 import style from "./layout.module.css";
-import fetchBooks from "@/api/fetch-books";
+import { fetchBooks } from "@/api/fetch-books";
 
 async function Footer() {
   const response = await fetchBooks();
