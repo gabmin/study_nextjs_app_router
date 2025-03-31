@@ -38,3 +38,11 @@ export const fetchReadReview = async (bookId: string) => {
 
   return reviewData;
 };
+
+export const fetchDeleteReview = async (reviewId: string) => {
+  const response = await fetch(`${endpoints.review}/${reviewId}`, {
+    method: "DELETE",
+  });
+
+  return response;
+};

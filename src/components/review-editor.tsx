@@ -1,6 +1,6 @@
 "use client";
 
-import { createReviewAction } from "@/app/actions/create-review-action";
+import { createReviewAction } from "@/app/actions/create-review.action";
 import style from "./review-editor.module.css";
 import { useActionState, useEffect } from "react";
 

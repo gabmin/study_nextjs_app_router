@@ -25,6 +25,51 @@ NEXT_PUBLIC_API_DEPLOY_SERVER_URL=https://.../
 
 <br/>
 
+### 버튼이 아닌 엘리먼트 form 태그로 이용하기
+
+```typescript
+export default function RevoewItemDeleteButton() {
+  const formRef = useRef<HTMLFormElement>(null);
+
+  return (
+    <form ref={formRef}>
+      <div
+        className={style.delete_btn}
+        onClick={() => formRef.current?.requestSubmit()}
+      >
+        삭제하기
+      </div>
+    </form>
+  );
+}
+```
+
+<br/>
+
+### submit() vs requestSubmit()
+
+#### submit()
+
+- 폼을 강제로 제출할 때 사용됨
+- 이벤트(submit 이벤트)가 발생하지 않음 (onsubmit 핸들러나 addEventListener('submit', ...)에 등록된 함수가 실행되지 않음)
+- 유효성 검사(novalidate 속성이 없을 경우 required 등)가 자동으로 실행되지 않음
+
+### requestSubmit()
+
+- 브라우저가 실제 사용자가 제출하는 것처럼 동작하게 만듦.
+- submit 이벤트가 정상적으로 발생함 (이벤트 리스너가 실행됨)
+- 기본적인 폼의 유효성 검사가 수행됨.
+- 특정한 submit 버튼을 지정할 수도 있음.
+
+```javascript
+const submitButton = document.getElementById("submitBtn");
+
+// 특정 버튼을 지정하여 requestSubmit 실행
+form.requestSubmit(submitButton);
+```
+
+<br/>
+
 ## 라우트 세그먼트 옵션
 
 - 특정 페이지의 데이터 캐싱이나 리벨리데이트 동작을 강제할 수 있는 기능
