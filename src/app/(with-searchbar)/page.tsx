@@ -4,6 +4,7 @@ import books from "@/mock/books.json";
 import { fetchBooks, fetchRandomBooks } from "@/api/fetch-books";
 import { Suspense } from "react";
 import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
+import { Metadata } from "next";
 
 // 클라언트 컴포넌트와 서버 컴포넌트로 구분하기 위해 분리
 async function AllBooks() {
@@ -32,6 +33,16 @@ async function RecommendBooks() {
 }
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "한입 북스",
+  description: "한입 북스에 등록된 도서를 만나보세요.",
+  openGraph: {
+    title: "한입 북스",
+    description: "한입 북스에 등록된 도서를 만나보세요.",
+    images: ["/thumnail.png"],
+  },
+};
 
 // 서버 컨포넌트로 실행
 export default function Home() {

@@ -6,6 +6,7 @@ import { ReviewData } from "@/types";
 import ReviewItem from "@/components/review-item";
 import ReviewEditor from "@/components/review-editor";
 import Image from "next/image";
+import { Metadata } from "next";
 
 // generateStaticParams로 명시하지 않은 페이지는 404 페이지로 이동시킴
 // 데이터가 존재하더라도 id:4 페이지로 접근하면 404 페이지 노출
@@ -71,6 +72,25 @@ async function ReviewList({ bookId }: { bookId: string }) {
       ))}
     </section>
   );
+}
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ id?: string }>;
+}): Promise<Metadata> {
+  const { id } = await searchParams;
+  const targetBook = await fetctTargetBooks(id ?? "");
+
+  return {
+    title: `${targetBook?.title} : 한입북스`,
+    description: targetBook?.description,
+    openGraph: {
+      title: `${targetBook?.title} - 한입북스`,
+      description: targetBook?.description,
+      images: targetBook?.coverImgUrl,
+    },
+  };
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
