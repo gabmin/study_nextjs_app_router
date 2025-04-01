@@ -4,7 +4,7 @@
 
 #### 1. [기타 정보](#기타-정보)
 
-#### 2. [라이트 세그먼트 옵션](#라우트-세그먼트-옵션)
+#### 2. [라우트 세그먼트 옵션](#라우트-세그먼트-옵션)
 
 #### 3. [클라이언트 라우터 캐시](#클라이언트-라우터-캐시)
 
@@ -113,6 +113,95 @@ const submitButton = document.getElementById("submitBtn");
 
 // 특정 버튼을 지정하여 requestSubmit 실행
 form.requestSubmit(submitButton);
+```
+
+<br/>
+
+## 페이지 라우팅 설정
+
+### 라우팅
+
+`page.tsx`만 페이지로써 인식되어 라우팅 기능을 사용할 수 있음
+
+```
+- app
+  ㄴ page.tsx
+  ㄴ search
+    ㄴ page.tsx
+  ㄴ book
+    ㄴ[id] // 동적 경로
+      ㄴ page.tsx
+    ㄴ [...id]  // 캐치 올 세그먼트
+      ㄴ page.tsx
+```
+
+<br/>
+
+### Params
+
+모든 페이지는 props로 Params를 전달 받는다.
+searchParams이라는 파라미터로 Promise 객체를 전달 받는다.
+
+```typescript
+export default async function Page ({searchParams}: {searchParams: Promise<id: string>}) {
+  const { q } = await searchParams
+
+  return (
+    <>
+    </>
+  )
+}
+```
+
+<br/>
+
+### 레이아웃 설정
+
+`layout.tsx`라는 이름으로 파일을 생성하주면 해당 페이지 및 하위의 모든 페이지에 레이아웃을 적용할 수 있다.
+![레이아웃 설정](./public/readme/스크린샷%202025-04-01%20오후%208.12.19.png)
+![레이아웃 설정2](./public/readme/스크린샷%202025-04-01%20오후%208.13.28.png)
+
+```typescript
+import { ReactNode } from "react";
+
+export default function Layout({
+  children.
+} : {
+  children: ReactNode
+}) {
+  return (
+    <div>
+      레이아웃 컨포넌트
+      { children }
+    </div>
+  )
+}
+```
+
+<br/>
+
+### 라우트 그룹
+
+만약 index 페이지에 레아이웃이 적용되어 있고 하위의 특정 페이지에는 레이아웃을 적용되지않게 하려면 라우트 그룹을 사용해야한다.
+경로상에 아무런 영향을 미치지 않고 단지 그룹핑만 해주는 기능
+
+```
+- app
+  ㄴ page.tsx   ----> index 페이지
+  ㄴ layout.tsx
+  ㄴ search
+    ㄴ page.tsx
+  ㄴ book
+    ㄴ page.tsx   ----> 해당 페이지에는 레이아웃을 적용시키지 않고 싶을 경우
+
+- app
+  ㄴ (with-searchbar)
+    ㄴ page.tsx   ----> index 페이지
+    ㄴ layout.tsx
+    ㄴ search
+      ㄴ page.tsx
+  ㄴ book
+    ㄴ page.tsx   ----> 레이아웃에 영향을 받지 않음
 ```
 
 <br/>
