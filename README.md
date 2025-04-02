@@ -286,6 +286,51 @@ app 라우트에서는 RSC Payload도 같이 전달된다.
 
 ![네비게이팅](./public/readme/스크린샷%202025-04-01%20오후%209.06.54.png)
 
+<br/>
+
+## 데이터 페칭 (Data Fetching)
+
+서버 컴포넌트의 개념이 등장하면서 `async`키워드를 통해서 비동기 함수를 사용할 수 있게 되었다.
+페이지 라우터의 `getServerSideProps`, `getStaticProps`를 대체한다.
+
+```typescript
+export async function Page(props) {
+  const data = await fetch("...");
+
+  return <div></div>;
+}
+```
+
+<br/>
+
+### 데이터 캐시
+
+불 필요한 데이터 요청의 수를 줄여서 웹 서비스의 성능을 크게 개선하게 한다.
+
+```typescript
+const response = await fetch("url", options);
+
+-options;
+{
+  cache: "no-store"; // 데이터 캐쉬를 적용하지 않음 (기본값)
+}
+{
+  cache: "force-cache"; // 무조건 데이터를 캐싱하여 한번 호출 된 이후로는 다시 호출되지 않음.
+}
+{
+  next: {
+    revalidate: 10; // 10초 후에 데이터 캐쉬를 최산화 함.
+  }
+}
+{
+  next: {
+    tages: ["a"]; // On-Demand Revalidate, 서버 액션과 같이 사용해서 a 태그를 호출하면 최신화함.
+  }
+}
+```
+
+<br/>
+
 ## 라우트 세그먼트 옵션
 
 - 특정 페이지의 데이터 캐싱이나 리벨리데이트 동작을 강제할 수 있는 기능
