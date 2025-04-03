@@ -358,6 +358,22 @@ Static 페이지에만 적용 되며, dynamic 페이지에는 적용되지 않�
 
 ![풀라우트캐시2](./public/readme/스크린샷%202025-04-03%20오후%208.57.11.png)
 
+페이지가 아닌 컴포넌트에서 Params 값을 가져오는 `useSearchParams`훅을 사용하면 Dynamic Page로 인식되지 않는다.
+이때 풀 라우트 캐시에 의해서 빌트 다음에 생성하게 되는데 Params 값을 알 수 없기때문에 에러가 발생한다.
+이때는 이 컴포넌트를 `Suspense`로 감싸줘서 클라이언트에서만 실행되도록 설정해줘야한다.
+
+```typescript
+export default function Page() {
+  return (
+    <Suspense fallback={<div>로딩중..</div>}>
+      <SearchBar></SearchBar>
+    </Suspense>
+  );
+}
+```
+
+<br/>
+
 ![풀라우트캐시3](./public/readme/스크린샷%202025-04-03%20오후%208.57.52.png)
 
 ![풀라우트캐시4](./public/readme/스크린샷%202025-04-03%20오후%209.03.04.png)
