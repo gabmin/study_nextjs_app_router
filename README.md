@@ -1,4 +1,4 @@
-# Nextjs App Router
+# Next.js App Router
 
 ## 목차
 
