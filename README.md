@@ -178,7 +178,7 @@ export default function Layout({
 }) {
   return (
     <div>
-      레이아웃 컨포넌트
+      레이아웃 컴포넌트
       { children }
     </div>
   )
@@ -215,15 +215,15 @@ export default function Layout({
 
 ## 서버 컴포넌트 (Server Component)
 
-![서버컨포넌트](./public/readme/스크린샷%202025-04-01%20오후%208.29.18.png)
+![서버컴포넌트](./public/readme/스크린샷%202025-04-01%20오후%208.29.18.png)
 
-페이지 라우트 버전에서는 하이드레이션을 위해 JS Bundle 파일을 불러오는데, 이때 하이드레이션에 필요없는 컴포넌트까지 다 불러오기 떄문에 성능저하가 발생함
+페이지 라우트 버전에서는 하이드레이션을 위해 JS Bundle 파일을 불러오는데, 이때 하이드레이션에 필요없는 컴포넌트까지 다 불러오기 때문에 성능저하가 발생함
 
-이러한 다시 불러올 필요가 없는 컨포넌트(서버에서만 실행되는 컴포넌트)들을 서버 컨포넌트라고 한다.
+이러한 다시 불러올 필요가 없는 컴포넌트(서버에서만 실행되는 컴포넌트)들을 서버 컴포넌트라고 한다.
 
-공식문서에는 페이지 대부분을 서버 컨포넌트로 구성하고 필요한 경우에는 클라이언트 컨포넌트로 만들라고 권장한다.
+공식문서에는 페이지 대부분을 서버 컴포넌트로 구성하고 필요한 경우에는 클라이언트 컴포넌트로 만들라고 권장한다.
 
-서버컴포넌트는 서버에서만 실행되기 떄문에 클라이언트에서 실행되는 React Hook을 사용할 수 없다. (client 컴포넌트이라고 명시해야한다.)
+서버컴포넌트는 서버에서만 실행되기 때문에 클라이언트에서 실행되는 React Hook을 사용할 수 없다. (client 컴포넌트이라고 명시해야한다.)
 
 ```typescript
 "use client";
@@ -268,6 +268,7 @@ export default function Page() {
     ```
 
 4.  서버 컴포넌트에서 클라이언트 컴포넌트에게 직렬화 되지 않는 Props는 전달 불가능하다.
+
     직렬화 : 객체, 배열 클래스 등의 복잡한 구조의 데이터를 네트워크 상으로 전송하기 위해 아주 단순한 형태(문자열, Byte)로 변환하는것
 
     자바스크립트에서 함수는 직렬화가 불가능 하다.
@@ -292,7 +293,7 @@ app 라우트에서는 RSC Payload도 같이 전달된다.
 
 ## 데이터 페칭 (Data Fetching)
 
-서버 컴포넌트의 개념이 등장하면서 `async`키워드를 통해서 비동기 함수를 사용할 수 있게 되었다.
+서버 컴포넌트의 개념이 등장하면서 `async`키워드를 통해서 비동기 함수를 사용할 수 있게 되었다.   
 페이지 라우터의 `getServerSideProps`, `getStaticProps`를 대체한다.
 
 ```typescript
@@ -335,7 +336,7 @@ const response = await fetch("url", options);
 
 ### 리퀘스트 메모이제이션 (Request Memoization)
 
-하나의 페이지 안에서 중복적으로 사용되는 api를 캐싱하여 요청 횟수를 줄여주는 기능
+하나의 페이지 안에서 중복적으로 사용되는 api를 캐싱하여 요청 횟수를 줄여주는 기능   
 **오직 페이지를 렌더링 하는 동안에만 동작하기 때문에 페이지를 이동하면 리퀘스트 메모이제이션에 저장된 캐쉬는 사라진다.**
 
 ![리퀘스트 메모이제이션](./public/readme/스크린샷%202025-04-02%20오후%203.43.40.png)
@@ -409,47 +410,45 @@ export default function Page({ params }: { params: { id: string } }) {
 
 1. dynamicParams
 
-generateStaticParams로 명시해준 params 이외에 데이터에 접근하게 되면 404 에러페이지로 이동시킨다.
-
-```typescript
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return [
-    {
-      id: "1",
-    },
-    {
-      id: "2",
-    },
-    {
-      id: "3",
-    },
-  ];
-}
-```
+    generateStaticParams로 명시해준 params 이외에 데이터에 접근하게 되면 404 에러페이지로 이동시킨다.
+    
+    ```typescript
+    export const dynamicParams = false;
+    
+    export function generateStaticParams() {
+      return [
+        {
+          id: "1",
+        },
+        {
+          id: "2",
+        },
+        {
+          id: "3",
+        },
+      ];
+    }
+    ```
 
 <br/>
 
 2. dynamic
 
-특정 페이지의 유형을 강제로 Static, Dynamic 페이지로 설정해주는 기능 **(권장되지 않음)**
+    특정 페이지의 유형을 강제로 Static, Dynamic 페이지로 설정해주는 기능 **(권장되지 않음)**
+    
+    ```
+    export const dynamic = 'auto'
+    export const dynamic = 'force-dynamic'
+    export const dynamic = 'force-static'
+    export const dynamic = 'error'
+    ```
 
-```
-export const dynamic = 'auto'
-export const dynamic = 'force-dynamic'
-export const dynamic = 'force-static'
-export const dynamic = 'error'
-```
-
-1. auto: 기본값, 아무것도 강제하지 않음
-2. force-dynamic: 페이지를 강제로 Dynamic 페이지로 설정
-3. force-static: 페이지를 강제로 Static 페이지로 설정
-
-- params 같은 동적 데이터는 undefined로 설정됨
-- 데이터 캐쉬의 옵션이 force-cache로 변경됨
-
-4. error: 페이지를 강제로 Static 페이지로 설정 (설정이 안되는 경우 -> 빌드 오류로 노출)
+   1. auto: 기본값, 아무것도 강제하지 않음
+   2. force-dynamic: 페이지를 강제로 Dynamic 페이지로 설정
+   3. force-static: 페이지를 강제로 Static 페이지로 설정
+      - params 같은 동적 데이터는 undefined로 설정됨
+      - 데이터 캐쉬의 옵션이 force-cache로 변경됨
+   4. error: 페이지를 강제로 Static 페이지로 설정 (설정이 안되는 경우 -> 빌드 오류로 노출)
 
 <br/>
 
@@ -584,7 +583,7 @@ export default function Error({
    form 태그에 서버 액션을 바로 연결할 수 있어서 전통적인 HTML 폼 방식과 비슷하게 동작하면서 백엔드 작업을 수행할 수 있다.
 
 - form tag에서 서버 액션을 사용하여 마치 api처럼 서버에 요청할 수 있다.
-- formData로 입렵 정보가 전달됨
+- formData로 입력 정보가 전달됨
 
 ```typescript
 function ReviewEditor() {
